@@ -1,0 +1,57 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<h2>All Applications</h2>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>Company</th>
+            <th>Role</th>
+            <th>Email</th>
+            <th>Status</th>
+            <th>Date Applied</th>
+            <th>Follow-up</th>
+            <th>Delete</th> <!-- NEW COLUMN -->
+        </tr>
+    </thead>
+
+    <tbody>
+        {% for row in data %}
+        <tr>
+            <td>{{ row["Company_Name"] }}</td>
+            <td>{{ row["Role"] }}</td>
+            <td>{{ row["HR_Email"] }}</td>
+
+            <!-- 🔥 Editable Status -->
+            <td>
+                <form method="POST" action="{{ url_for('update_status') }}">
+                    <input type="hidden" name="index" value="{{ loop.index0 }}">
+
+                    <select name="status" onchange="this.form.submit()">
+                        <option value="Applied" {% if row["Status"] == "Applied" %}selected{% endif %}>Applied</option>
+                        <option value="Interview" {% if row["Status"] == "Interview" %}selected{% endif %}>Interview</option>
+                        <option value="Rejected" {% if row["Status"] == "Rejected" %}selected{% endif %}>Rejected</option>
+                        <option value="No reply" {% if row["Status"] == "No reply" %}selected{% endif %}>No reply</option>
+                    </select>
+                </form>
+            </td>
+
+            <td>{{ row["Date applied"] }}</td>
+            <td>{{ row["Last follow-up date"] }}</td>
+
+            <!-- DELETE BUTTON -->
+            <td>
+                <form method="POST" action="{{ url_for('delete') }}">
+                    <input type="hidden" name="index" value="{{ loop.index0 }}">
+                    <button type="submit" class="delete-btn">✖</button>
+                </form>
+            </td>
+
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+
+{% endblock %}
