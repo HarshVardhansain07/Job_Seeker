@@ -1,17 +1,22 @@
-import pandas as pd
-import matplotlib.pyplot as plt
-from read_csv import load_data
+from database import get_connection
 
-def chart():
-    df = load_data()
-    if df.empty:
-        print("List is empty")
-        return
+def stats():
+    conn = get_connection()
+    cursor = conn.cursor()
 
-    status_count = df['Status'].value_counts()
-    plt.figure()
-    status_count.plot(kind='pie',autopct='%1.1f%%')
-    plt.title("Application Status Distribution")
-    plt.ylabel("")
-    plt.show()
+    cursor.execute("SELECT Status, COUNT(*) FROM List GROUP BY Status")
+    data = cursor.fetchall()
 
+    conn.close()
+
+    # Convert to dictionary
+    return {row[0]: row[1] for row in data}
+def date_chart():
+    conn = get_connection()
+    cursor = conn.cursor()
+    cursor.execute('SELECT Date_applied,COUNT(*) FROM LIST GROUP BY Date_applied')
+    data = cursor.fetchall()
+    conn.close()
+
+    # Convert to dictionary
+    return {row[0]: row[1] for row in data}

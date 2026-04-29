@@ -1,47 +1,31 @@
-{% extends "base.html" %}
+<h3>Application Status Distribution</h3>
 
-{% block content %}
-
-<h2>📊 Analytics Dashboard</h2>
-
-<div class="analytics-container">
-
-    <!-- Total Applications -->
-    <div class="card" action = /chart> 
-        <h3>Total Applications</h3>
-        <p>{{ total }}</p>
-    </div>
-
-    <!-- Applied -->
-    <div class="card">
-        <h3>Applied</h3>
-        <p>{{ applied }}</p>
-    </div>
-
-    <!-- Interview -->
-    <div class="card">
-        <h3>Interview</h3>
-        <p>{{ interview }}</p>
-    </div>
-
-    <!-- Rejected -->
-    <div class="card">
-        <h3>Rejected</h3>
-        <p>{{ rejected }}</p>
-    </div>
-
-    <!-- No Reply -->
-    <div class="card">
-        <h3>No Reply</h3>
-        <p>{{ no_reply }}</p>
-    </div>
-
+<div style="width: 400px; margin: auto;">
+    <canvas id="statusChart"></canvas>
 </div>
 
-<!-- Optional Chart -->
-<div class="chart-container">
-    <h3>Status Distribution</h3>
-    <img src="{{ url_for('static', filename='chart.png') }}" alt="Chart">
-</div>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
-{% endblock %}
+<script>
+    const data = {
+        labels: ["Applied", "Interview", "Rejected", "No reply"],
+        datasets: [{
+            data: [
+                {{ stats.get('Applied', 0) }},
+                {{ stats.get('Interview', 0) }},
+                {{ stats.get('Rejected', 0) }},
+                {{ stats.get('No reply', 0) }}],
+            backgroundColor: [
+                "#4CAF50",
+                "#2196F3",
+                "#f44336",
+                "#9E9E9E"
+            ]
+        }]
+    };
+
+    new Chart(document.getElementById('statusChart'), {
+        type: 'pie',
+        data: data
+    });
+</script>

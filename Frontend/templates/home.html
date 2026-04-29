@@ -12,40 +12,37 @@
             <th>Email</th>
             <th>Status</th>
             <th>Date Applied</th>
-            <th>Follow-up</th>
-            <th>Delete</th> <!-- NEW COLUMN -->
+            <th>Website link</th>
+            <th>Delete</th> 
         </tr>
     </thead>
 
     <tbody>
         {% for row in data %}
         <tr>
-            <td>{{ row["Company_Name"] }}</td>
-            <td>{{ row["Role"] }}</td>
-            <td>{{ row["HR_Email"] }}</td>
+            <td>{{ row[1] }}</td>
+            <td>{{ row[5] }}</td>
+            <td>{{ row[2] }}</td>
 
-            <!-- 🔥 Editable Status -->
             <td>
-                <form method="POST" action="{{ url_for('update_status') }}">
-                    <input type="hidden" name="index" value="{{ loop.index0 }}">
+                <form method="POST" action="{{ url_for('update') }}">
+                    <input type="hidden" name="Id" value="{{ row[0] }}">
 
                     <select name="status" onchange="this.form.submit()">
-                        <option value="Applied" {% if row["Status"] == "Applied" %}selected{% endif %}>Applied</option>
-                        <option value="Interview" {% if row["Status"] == "Interview" %}selected{% endif %}>Interview</option>
-                        <option value="Rejected" {% if row["Status"] == "Rejected" %}selected{% endif %}>Rejected</option>
-                        <option value="No reply" {% if row["Status"] == "No reply" %}selected{% endif %}>No reply</option>
+                        <option value="Applied" {% if row[4] == "Applied" %}selected{% endif %}>Applied</option>
+                        <option value="Interview" {% if row[4] == "Interview" %}selected{% endif %}>Interview</option>
+                        <option value="Rejected" {% if row[4] == "Rejected" %}selected{% endif %}>Rejected</option>
+                        <option value="No reply" {% if row[4] == "No reply" %}selected{% endif %}>No reply</option>
                     </select>
                 </form>
             </td>
 
-            <td>{{ row["Date applied"] }}</td>
-            <td>{{ row["Last follow-up date"] }}</td>
-
-            <!-- DELETE BUTTON -->
+            <td>{{ row[3] }}</td>
+            <td> {{row[6]}}</td>
             <td>
                 <form method="POST" action="{{ url_for('delete') }}">
-                    <input type="hidden" name="index" value="{{ loop.index0 }}">
-                    <button type="submit" class="delete-btn">✖</button>
+                    <input type="hidden" name="Id" value="{{ row[0] }}">
+                    <button type="submit" class="delete-btn">🗑️</button>
                 </form>
             </td>
 
@@ -53,5 +50,6 @@
         {% endfor %}
     </tbody>
 </table>
+
 
 {% endblock %}

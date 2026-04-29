@@ -1,68 +1,65 @@
 from flask import Flask, render_template, request
 from flask import redirect
+from datetime import datetime
 import sys
 import os
 # allow import from parent folder
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
-from read_csv import load_data, save_data
-from Application import add_List
-from Delete_data import delete_data
+import database
+import Analysischart
 
 app = Flask(__name__)
-
+database.create_table()
 # Home (Dashboard)
 @app.route("/")
 def home():
-    try:
-        df = load_data()
-        data = df.to_dict(orient="records")
-    except:
-        data = []
-
-    return render_template("home.html", data=data)
+ data = database.view_data()
+ return render_template("home.html", data=data)
 
 
 #  Add form
 @app.route("/add", methods=["GET", "POST"])
 def add():
-    if request.method == "POST":
-        company = request.form["company"]
-        role = request.form["role"]
-        email = request.form["email"]
-        status = request.form["status"]
+        if request.method ==  'POST':
+            database.add_data(
+            request.form['Company_Name'],
+            request.form['HR_Email'],
+            request.form['Role'],
+            request.form['Status'],
+            request.form['Website_link']
 
-        add_List(company, role, email, status)
+            )
+            return redirect("/") 
+        return render_template("add_form.html")
 
-        return redirect("/") 
 
-    return render_template("add_form.html")
-@app.route("/update_status", methods=["POST"])
-def update_status():
-    index = int(request.form["index"])
-    new_status = request.form["status"]
+@app.route("/update", methods=["POST"])
 
-    df = load_data()
+def update():
 
-    df.loc[index, "Status"] = new_status
-
-    from datetime import datetime, timedelta
-
-    if new_status in ["Applied", "No reply"]:
-        follow_up = datetime.today() + timedelta(days=7)
-        df.loc[index, "Last follow-up date"] = follow_up.strftime('%d-%m-%Y')
-    else:
-        df.loc[index, "Last follow-up date"] = "--"
-
-    save_data(df)
+    Id = request.form.get("Id")
+    status = request.form.get("status")
+    print(f"Updating Id: {Id}, Status: {status}")  # Debugging log
+    database.update_status(status, Id)
 
     return redirect("/")
+
+
 @app.route("/delete", methods=["POST"])
 def delete():
-    index = int(request.form["index"])
-
-    delete_data(index)
-
+    Id = request.form.get("Id")  
+    
+    database.delete_data(int(Id))  
     return redirect("/")
+
+@app.route("/analytics")
+def analytics_page():
+    data = database.view_data()
+    stats = Analysischart.stats()
+    date_a = Analysischart.date_chart()
+    
+
+    return render_template("analytics.html", data=data, stats=stats)
 
 
 if __name__ == "__main__":
