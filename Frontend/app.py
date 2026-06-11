@@ -9,7 +9,7 @@ sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 import database
 import Analysischart
 
-# ✅ FIX: Correct template & static paths
+
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 
 app = Flask(
@@ -20,8 +20,6 @@ app = Flask(
 
 # create table
 database.create_table()
-
-
 # ---------------- HOME ----------------
 @app.route("/")
 def home():
