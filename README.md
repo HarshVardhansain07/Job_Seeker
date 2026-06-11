@@ -18,7 +18,7 @@ Job Tracker with CRUD operations and analytics dashboard.
 - **Backend:** Flask (Python)
 - **Data Handling:** Pandas
 - **Frontend:** HTML, CSS (Jinja2 Templates)
-- **Storage:** CSV file
+- **Storage:** My SQl
 
 ---
 
