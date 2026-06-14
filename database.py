@@ -1,21 +1,26 @@
 import mysql.connector
 from datetime import datetime
+from dotenv import load_dotenv
+import os
+load_dotenv()
 
 def get_connection():
     conn = mysql.connector.connect(
-        host="127.0.0.1",
-        user="root",
-        password="harshME@855",
-        database="companies_db"
+      host=os.getenv("DB_HOST"),
+
+        user=os.getenv("DB_USER"),
+
+        password=os.getenv("DB_PASSWORD"),
+
+        database=os.getenv("DB_NAME")
     )
-    print("Connected to companies_db")
+  
     return conn
 
 
 def create_table():
     conn = get_connection()
     cursor = conn.cursor()
-    print("Connected to MySQL")
 
     cursor.execute("""
         CREATE TABLE IF NOT EXISTS `List` (
