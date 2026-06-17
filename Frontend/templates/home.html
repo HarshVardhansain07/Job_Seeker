@@ -20,25 +20,25 @@
     <tbody>
         {% for row in data %}
         <tr>
-            <td>{{ row[1] }}</td>
-            <td>{{ row[5] }}</td>
             <td>{{ row[2] }}</td>
+            <td>{{ row[6] }}</td>
+            <td>{{ row[3] }}</td>
 
             <td>
                 <form method="POST" action="{{ url_for('update') }}">
                     <input type="hidden" name="Id" value="{{ row[0] }}">
 
                     <select name="status" onchange="this.form.submit()">
-                        <option value="Applied" {% if row[4] == "Applied" %}selected{% endif %}>Applied</option>
-                        <option value="Interview" {% if row[4] == "Interview" %}selected{% endif %}>Interview</option>
-                        <option value="Rejected" {% if row[4] == "Rejected" %}selected{% endif %}>Rejected</option>
-                        <option value="No reply" {% if row[4] == "No reply" %}selected{% endif %}>No reply</option>
+                        <option value="Applied" {% if row[5] == "Applied" %}selected{% endif %}>Applied</option>
+                        <option value="Interview" {% if row[5] == "Interview" %}selected{% endif %}>Interview</option>
+                        <option value="Rejected" {% if row[5] == "Rejected" %}selected{% endif %}>Rejected</option>
+                        <option value="No reply" {% if row[5] == "No reply" %}selected{% endif %}>No reply</option>
                     </select>
                 </form>
             </td>
 
-            <td>{{ row[3] }}</td>
-            <td> {{row[6]}}</td>
+            <td>{{ row[4] }}</td>
+            <td> {{row[7]}}</td>
             <td>
                 <form method="POST" action="{{ url_for('delete') }}">
                     <input type="hidden" name="Id" value="{{ row[0] }}">
