@@ -26,15 +26,17 @@ database.create_table()
 # ---------------- HOME ----------------
 @app.route("/",methods= ["GET","POST"])
 def login():
+   
     if request.method == "POST":
      
         Username= request.form['Username']
         Password= request.form['Password']
         User_Id = database.login(Username,Password)
+    
         if User_Id:
             session["user_id"] = User_Id
             return redirect("/Home")
-        
+       
     
     return render_template("Login_form.html")
 
