@@ -11,12 +11,18 @@
   <div class="User_form">
     <h2>User Login</h2>
     {% with messages = get_flashed_messages() %}
-        {% if messages %}
-            {% for message in messages %}
-                <p class="error-message">{{ message }}</p>
-            {% endfor %}
-        {% endif %}
-    {% endwith %}
+
+    {% if messages %}
+
+        {% for message in messages %}
+
+            <p>{{message }}</p>
+
+        {% endfor %}
+
+    {% endif %}
+
+{% endwith %}
     <form method="POST" action="">
         <label>Username</label>
         <input type="text" name="Username" placeholder="Enter Username" required>
