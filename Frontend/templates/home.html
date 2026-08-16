@@ -42,6 +42,7 @@
             <td>
                 <form method="POST" action="{{ url_for('delete') }}">
                     <input type="hidden" name="Id" value="{{ row[0] }}">
+                    <input type="hidden" name="User_Id" value="{{session['User_Id']}}">
                     <button type="submit" class="delete-btn">🗑️</button>
                 </form>
             </td>
