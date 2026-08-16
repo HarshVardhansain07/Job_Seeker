@@ -1,0 +1,7 @@
+Flask
+python-dotenv
+psycopg[binary]
+supabase
+Flask-Bcrypt
+pandas
+gunicorn
