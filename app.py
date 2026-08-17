@@ -4,7 +4,6 @@ from datetime import datetime
 import sys
 import database
 import Analysischart
-from flask import Flask, session
 from dotenv import load_dotenv
 from supabase import create_client, Client
 # allow import from parent folder
@@ -27,8 +26,6 @@ supabase: Client = create_client(
 )
 
 
-# create table
-database.create_table()
 # ----------------Login ----------------
 @app.route("/", methods=["GET", "POST"])
 def login():
